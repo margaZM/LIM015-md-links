@@ -1,4 +1,4 @@
-const { validatePath, checkTypePath, listFilesMd, toPathAbsolute} = require('../src/index');
+const { validatePath, checkTypePath, readFilesMd, listFilesMd, toPathAbsolute, arrayFilePath } = require('../src/index');
 
 
 describe('validatePath(pathSent)', () => {
@@ -34,6 +34,20 @@ describe('checkTypePath(pathSent)', () => {
 
 });
 
+describe('arrayFilePath(pathSent)', () => {
+
+  it ("It should be a function", () => {
+    expect(typeof arrayFilePath).toBe('function');
+  });
+
+  it("Should return list files with path absolute if it is directory", () => {
+    const result = arrayFilePath("/home/marga/test/prueba");
+    expect(result).toEqual(['/home/marga/test/prueba/holamundo.js', '/home/marga/test/prueba/test2.md']);
+  });
+
+  //test asincrono
+});
+
 describe('listFilesMd(list)', () => {
   it ("It should be a function", () => {
     expect(typeof listFilesMd).toBe('function');
@@ -46,26 +60,23 @@ describe('listFilesMd(list)', () => {
   });
 });
 
-describe('toPathAbsolute(boolean)', () => {
+describe('toPathAbsolute(list)', () => {
   it ("It should be a function", () => {
     expect(typeof toPathAbsolute).toBe('function');
   });
-  // it ("Should return list of files with path absolute", () => {
-  //   expect(toPathAbsolute(true)).toEqual([]);
-  // });
-  // it ("Should be null if you don't have .md files", () => {
-  //   expect(toPathAbsolute(false)).toEqual([]);
-  // });
+  it ("Should return list of files with path absolute", () => {
+    expect(toPathAbsolute([ '../../test/test.md' ])).toEqual([ '/home/marga/test/test.md' ]);
+  });
 });
 
 describe('readFilesMd(list)', () => {
-  it ("It should be a function", () => {
+  it ("Should be a function", () => {
     expect(typeof readFilesMd).toBe('function');
   });
-  // it ("Should return list of files with path absolute", () => {
-  //   expect(toPathAbsolute(true)).toEqual([]);
-  // });
-  // it ("Should be null if you don't have .md files", () => {
+  it ("Should return null if the array is empty", () => {
+    expect(readFilesMd(['/home/marga/sinlinks/prueba/sinlinks.md'])).toEqual([null]);
+  });
+  // it ("Should return array de object con file, text and href", () => {
   //   expect(toPathAbsolute(false)).toEqual([]);
   // });
 });
