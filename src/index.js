@@ -7,13 +7,9 @@
 const fs = require('fs');
 const path = require('path');
 
-const validatePath = (pathSent) => {
-    return fs.existsSync(pathSent) ? true  : false; 
-};
+const validatePath = (pathSent) => fs.existsSync(pathSent); //Verifica si el path existe 
 
-const checkTypePath = (pathSent) => { // Verifica si es directorio
-    return fs.lstatSync(pathSent).isDirectory();
-};
+const checkTypePath = (pathSent) =>  fs.lstatSync(pathSent).isDirectory(); //Verifica si es directorio
 
 const arrayFilePath = (pathSent) => {
     const isDirectory = checkTypePath(pathSent);
@@ -29,9 +25,7 @@ const arrayFilePath = (pathSent) => {
     return files;
 };
 
-const listFilesMd = (list) => { //listar los archivos md
-    return list.filter(file => path.extname(file) === '.md');
-};
+const listFilesMd = (list) => list.filter(file => path.extname(file) === '.md'); //listar los archivos md
 
 const toPathAbsolute = (list) => { // Pasar a ruta absoluta
     return list.map(element => {
@@ -40,7 +34,8 @@ const toPathAbsolute = (list) => { // Pasar a ruta absoluta
 };
 
 const readFilesMd = (list) => { //Lee los links de los archivos md
-    const regEXp = /(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/gi;
+    // const regEXp = /\[([^\[]+)\](\(.*\))|(\<.*\>)|\[([^\[]+)\]:\s(http[s]?:www.\w+.\D\S{2,})$/gi;
+    const regEXp = /\[([^\[]+)\]:?\s?\(?(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g
     return list.map(file => {
         const fileContent = fs.readFileSync(file, 'UTF-8');
         const urls = fileContent.match(regEXp);
@@ -50,8 +45,9 @@ const readFilesMd = (list) => { //Lee los links de los archivos md
         }
         const infoUrls = urls.map(url => {
             const infoUrl = {
-                filePath: file,
-                urlsArray: url.slice(0, -1)
+                file: file,
+                text: url.match(/\[(.*)\]/).pop(),
+                href: url.match(/\((.*)\)/).pop(),
             }
             return infoUrl;
         })
@@ -59,8 +55,26 @@ const readFilesMd = (list) => { //Lee los links de los archivos md
     })
 };
 
+const getLinks = (arrayLinks) => {
+    let urls = [];
+    for (let i = 0; i < arrayLinks.length; i++) {
+        for (let j = 0; j < arrayLinks[i].length; j++) {
+            urls.push(arrayLinks[i][j]);
+        }
+    } 
+    return urls;
+}
 
-module.exports = { validatePath, checkTypePath, listFilesMd, readFilesMd, arrayFilePath, toPathAbsolute }
+
+module.exports = { 
+    validatePath, 
+    checkTypePath, 
+    listFilesMd, 
+    readFilesMd, 
+    arrayFilePath, 
+    toPathAbsolute,
+    getLinks 
+}
 
 
 // const validateRoute = (routeCommand) => {
