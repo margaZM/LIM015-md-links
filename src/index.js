@@ -1,9 +1,3 @@
-#!/usr/bin/env node 
-// chmod +x index.js         //  # Make the file executable
-//file existe: /home/marga/laboratoria/LIM015-data-lovers/README.md
-//             ../../laboratoria
-//              /home/marga/README.md   ../../README.md
-//              /home/marga/test/README.md   ../../../test.md
 const fs = require('fs');
 const path = require('path');
 
