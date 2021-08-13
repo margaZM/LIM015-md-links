@@ -28,55 +28,15 @@ const mdLinks = function(path, options) {
                 }
                 urls = index.getLinks(arrayLinks)
             }
-
-        } else {
-            if(path === '--help'){
-                process.stderr.write(message.helpMessage);
-                return;
-            }else if (path === undefined) {
-                process.stderr.write(message.whitOutPath.red);
-                return;
-            } else {
-                process.stderr.write(message.invalidPath.red);
-                return;
-            }
-        };
-
-        if ( isValid ) {
-            
             if (options.validate === true) {
-                console.log('es true')
                 resolve(cli.optionValidate(urls));
             } else {
                 resolve(urls);
             }
-
         } else {
-
-            if (options.validate === true){
-                console.log('es true')
-                // if (options[0] === '--validate') {
-                    resolve(cli.optionValidate(urls));
-                // } else if (options[0] === '--stats') {
-                //     resolve(cli.optionStats(urls));
-                // } else {
-                //     rejects(('orden no encontrada'));
-                // }
-            } else if (options.length === 2) {
-                if (options[0] === '--stats' && options[1] === '--validate') {
-                    cli.optionValidate(urls)
-                    .then(val => {
-                        let messageStats = cli.optionStats(urls);
-                        messageStats.Broken = cli.optionStatsValidate(val).Broken;
-                        resolve(messageStats);
-                    })
-                } else {
-                    rejects(('orden no encontrada'));
-                }
-            }
-
-        }
-
+            process.stderr.write(message.invalidPath.red);
+            return;
+        };
     })
 };
 
