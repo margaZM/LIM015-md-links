@@ -1,47 +1,77 @@
-const { validatePath, checkTypePath, readFilesMd, listFilesMd, toPathAbsolute, arrayFilePath } = require('../src/index');
+const index = require('../src/index');
+const cli = require('../src/cli');
+
+const _mock_arrayLinks = 
+[
+  [
+    {
+      file: '/home/marga/mock/mock.md',
+      text: 'crehana',
+      href: 'https://www.crehana.com/ve/'
+    },
+    {
+      file: '/home/marga/mock/mock.md',
+      text: 'LMS',
+      href: 'https://lms.laboratoria.la/'
+    }
+  ]
+]
+
+const _mock_links = 
+[
+  {
+    file: '/home/marga/mock/mock.md',
+    text: 'crehana',
+    href: 'https://www.crehana.com/ve/'
+  },
+  {
+    file: '/home/marga/mock/mock.md',
+    text: 'LMS',
+    href: 'https://lms.laboratoria.la/'
+  }
+]
 
 
 describe('validatePath(pathSent)', () => {
 
   it ("Deberia ser una funcion", () => {
-    expect(typeof validatePath).toBe('function');
+    expect(typeof index.validatePath).toBe('function');
   });
 
   it("Should return true if path exist", () => {
-    expect(validatePath('../../laboratoria')).toBe(true);
+    expect(index.validatePath('../../laboratoria')).toBe(true);
   });
 
   it("Should return false if it doesn't exist", () => {
-    expect(validatePath('../../laborato')).toBe(false);
+    expect(index.validatePath('../../laborato')).toBe(false);
   });
 });
 
 describe('checkTypePath(pathSent)', () => {
 
   it ("It should be a function", () => {
-    expect(typeof checkTypePath).toBe('function');
+    expect(typeof index.checkTypePath).toBe('function');
   });
 
   it("Should return true if it is directory", () => {
-    const result = checkTypePath("/home/marga/test");
+    const result = index.checkTypePath("/home/marga/test");
     expect(result).toBe(true);
   });
 
   it("Should return false if it is file", () => {
-    const result = checkTypePath("/home/marga/test/hello-world.js");
+    const result = index.checkTypePath("/home/marga/test/hello-world.js");
     expect(result).toBe(false);
   });
-
 });
 
 describe('arrayFilePath(pathSent)', () => {
 
   it ("It should be a function", () => {
-    expect(typeof arrayFilePath).toBe('function');
+    expect(typeof index.arrayFilePath).toBe('function');
   });
 
   it("Should return list files with path absolute if it is directory", () => {
-    const result = arrayFilePath("/home/marga/test/prueba");
+    const result = index.arrayFilePath("/home/marga/test/prueba");
     expect(result).toEqual(['/home/marga/test/prueba/holamundo.js', '/home/marga/test/prueba/test2.md']);
   });
 
@@ -50,33 +80,62 @@ describe('arrayFilePath(pathSent)', () => {
 
 describe('listFilesMd(list)', () => {
   it ("It should be a function", () => {
-    expect(typeof listFilesMd).toBe('function');
+    expect(typeof index.listFilesMd).toBe('function');
   });
   it ("Should return list of files only md of directory", () => {
-    expect(listFilesMd(['README.md', 'Vídeos','baby-steps.js','hello-world.js'])).toEqual(['README.md']);
+    expect(index.listFilesMd(['README.md', 'Vídeos','baby-steps.js','hello-world.js'])).toEqual(['README.md']);
   });
   it ("Should be null if you don't have .md files", () => {
-    expect(listFilesMd(['Vídeos','baby-steps.js','hello-world.js'])).toEqual([]);
+    expect(index.listFilesMd(['Vídeos','baby-steps.js','hello-world.js'])).toEqual([]);
   });
 });
 
 describe('toPathAbsolute(list)', () => {
   it ("It should be a function", () => {
-    expect(typeof toPathAbsolute).toBe('function');
+    expect(typeof index.toPathAbsolute).toBe('function');
   });
   it ("Should return list of files with path absolute", () => {
-    expect(toPathAbsolute([ '../../test/test.md' ])).toEqual([ '/home/marga/test/test.md' ]);
+    expect(index.toPathAbsolute([ '../../test/test.md' ])).toEqual([ '/home/marga/test/test.md' ]);
   });
 });
 
 describe('readFilesMd(list)', () => {
   it ("Should be a function", () => {
-    expect(typeof readFilesMd).toBe('function');
+    expect(typeof index.readFilesMd).toBe('function');
   });
   it ("Should return null if the array is empty", () => {
-    expect(readFilesMd(['/home/marga/sinlinks/prueba/sinlinks.md'])).toEqual([null]);
+    expect(index.readFilesMd(['/home/marga/sinlinks/prueba/sinlinks.md'])).toEqual([null]);
   });
-  // it ("Should return array de object con file, text and href", () => {
-  //   expect(toPathAbsolute(false)).toEqual([]);
-  // });
+  it ("Should return an array of arrays from each directory", () => {
+    expect(index.readFilesMd(['/home/marga/mock/mock.md'])).toEqual(_mock_arrayLinks);
+  });
+});
+
+describe('getLinks(list)', () => {
+  it ("Should be a function", () => {
+    expect(typeof index.getLinks).toBe('function');
+  });
+  it ("Should return an array of objects from each link", () => {
+    expect(index.getLinks(_mock_arrayLinks)).toEqual(_mock_links);
+  });
+});
+
+describe('optionStats(urls)', () => {
+  it ("Should be a function", () => {
+    expect(typeof cli.optionStats).toBe('function');
+  });
+  it ("Should return an object", () => {
+    const result = cli.optionStats(_mock_links)
+    expect(result).toEqual({Total: 2, Unique: 2});
+  });
+});
+
+describe('optionStatsValidate(urls)', () => {
+  it ("Should be a function", () => {
+    expect(typeof cli.optionStatsValidate).toBe('function');
+  });
+  it ("Should return an object", () => {
+    const result = cli.optionStatsValidate(_mock_links)
+    expect(result).toEqual({Total: 2, Unique: 2, Broken: 1});
+  });
 });
