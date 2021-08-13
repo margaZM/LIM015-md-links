@@ -1,84 +1,83 @@
-#!/usr/bin/env node 
 const process = require('process');
-const { rejects } = require('assert');
-const { resolve } = require('path');
-const fetch = require('node-fetch');
 require('colors');
-
 const index = require('./index');
 const message = require('./messages');
 const cli = require('./cli');
 
-const mdLinks = function(path, options = false) {
-    const isValid = index.validatePath(path);
-    let urls;
+const mdLinks = function(path, options) {
+    
+    return new Promise((resolve, rejects) => {
+        console.log(options, path)
+        const isValid = index.validatePath(path);
+        let urls;
 
-    if( isValid ) {
-        const allFiles = index.arrayFilePath(path);
-        const filesMd = index.listFilesMd(allFiles);
+        if( isValid ) {
+            const allFiles = index.arrayFilePath(path);
+            const filesMd = index.listFilesMd(allFiles);
 
-        if (filesMd.length === 0) {
-            process.stderr.write(message.whitOutFilesMd);
-            return;
-        } 
-        else {
-            const filesMdAbsolute = index.toPathAbsolute(filesMd);
-            const arrayLinks = index.readFilesMd(filesMdAbsolute);
-            if (arrayLinks[0] === null) {
-                process.stderr.write(message.whitOutLinks);
+            if (filesMd.length === 0) {
+                process.stderr.write(message.whitOutFilesMd.red);
+                return;
+            } 
+            else {
+                const filesMdAbsolute = index.toPathAbsolute(filesMd);
+                const arrayLinks = index.readFilesMd(filesMdAbsolute);
+                if (arrayLinks[0] === null) {
+                    process.stderr.write(message.whitOutLinks.red);
+                    return;
+                }
+                urls = index.getLinks(arrayLinks)
+            }
+
+        } else {
+            if(path === '--help'){
+                process.stderr.write(message.helpMessage);
+                return;
+            }else if (path === undefined) {
+                process.stderr.write(message.whitOutPath.red);
+                return;
+            } else {
+                process.stderr.write(message.invalidPath.red);
                 return;
             }
-            urls = index.getLinks(arrayLinks)
-        }
+        };
 
-    } else {
-        if(pathSent === '--help'){
-            process.stdout.write(message.helpMessage)
-        }else if (pathSent === undefined) {
-            process.stderr.write(message.whitOutPath.red);
-        } else {
-            process.stderr.write(message.invalidPath.red);
-        return;
-        }
-    };
-
-    if (options.length === 0 ) {
-        return new Promise((resolve, rejects) => {
-            resolve(urls);
-            rejects(error);
-        })
-    } else {
-
-        if (options.length === 1){
-            if (options[0] === '--validate') {
-                return new Promise((resolve, rejects) => {
-                    resolve(cli.optionValidate(urls));
-                    rejects(error)
-                })
-            } else if (options[0] === '--stats') {
-                return new Promise((resolve, rejects) => {
-                    resolve(cli.optionStats(urls));
-                    rejects(error)
-                })
-
+        if ( isValid ) {
+            
+            if (options.validate === true) {
+                console.log('es true')
+                resolve(cli.optionValidate(urls));
             } else {
-                console.error(('orden no encontrada'));
+                resolve(urls);
             }
-        } else if (options.length === 2) {
-            if (options[0] === '--stats' && options[1] === '--validate') {
-                return new Promise((resolve, rejects) => {
+
+        } else {
+
+            if (options.validate === true){
+                console.log('es true')
+                // if (options[0] === '--validate') {
+                    resolve(cli.optionValidate(urls));
+                // } else if (options[0] === '--stats') {
+                //     resolve(cli.optionStats(urls));
+                // } else {
+                //     rejects(('orden no encontrada'));
+                // }
+            } else if (options.length === 2) {
+                if (options[0] === '--stats' && options[1] === '--validate') {
                     cli.optionValidate(urls)
                     .then(val => {
                         let messageStats = cli.optionStats(urls);
                         messageStats.Broken = cli.optionStatsValidate(val).Broken;
-                        resolve(messageStats)
+                        resolve(messageStats);
                     })
-                })
-            } else {
-                console.error(('orden no encontrada'));
+                } else {
+                    rejects(('orden no encontrada'));
+                }
             }
+
         }
-    }
+
+    })
 };
 
 module.exports = { mdLinks }
