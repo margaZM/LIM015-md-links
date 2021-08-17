@@ -22,12 +22,30 @@ const _mock_links =
   {
     file: '/home/marga/mock/mock.md',
     text: 'crehana',
-    href: 'https://www.crehana.com/ve/'
+    href: 'https://www.crehana.com/ve/',
   },
   {
     file: '/home/marga/mock/mock.md',
     text: 'LMS',
-    href: 'https://lms.laboratoria.la/'
+    href: 'https://lms.laboratoria.la/',
+  }
+]
+
+const _mock_links_stats = 
+[
+  {
+    file: '/home/marga/mock/mock.md',
+    text: 'crehana',
+    href: 'https://www.crehana.com/ve/',
+    status: 404,
+    ok: 'Failed'
+  },
+  {
+    file: '/home/marga/mock/mock.md',
+    text: 'LMS',
+    href: 'https://lms.laboratoria.la/',
+    status: 200,
+    ok: 'Ok'
   }
 ]
 
@@ -75,7 +93,7 @@ describe('arrayFilePath(pathSent)', () => {
     expect(result).toEqual(['/home/marga/test/prueba/holamundo.js', '/home/marga/test/prueba/test2.md']);
   });
 
-  //test asincrono
+  //test recursivo
 });
 
 describe('listFilesMd(list)', () => {
@@ -120,12 +138,28 @@ describe('getLinks(list)', () => {
   });
 });
 
+//*************** CLI.JS ************************/
+
+describe('optionValidate(url)', () => {
+  it ("Should be a function", () => {
+    expect(typeof cli.optionValidate).toBe('function');
+  });
+
+  it ("Should return 200 for the status of a OK link", (done) => {
+    cli.optionValidate(_mock_links).then((resp) => {
+      expect(resp).toEqual(_mock_links_stats);
+      // expect(typeof resp).toBe('object');
+      done();
+    })
+  })
+});
+
 describe('optionStats(urls)', () => {
   it ("Should be a function", () => {
     expect(typeof cli.optionStats).toBe('function');
   });
   it ("Should return an object", () => {
-    const result = cli.optionStats(_mock_links)
+    const result = cli.optionStats(_mock_links_stats)
     expect(result).toEqual({Total: 2, Unique: 2});
   });
 });
@@ -135,7 +169,7 @@ describe('optionStatsValidate(urls)', () => {
     expect(typeof cli.optionStatsValidate).toBe('function');
   });
   it ("Should return an object", () => {
-    const result = cli.optionStatsValidate(_mock_links)
+    const result = cli.optionStatsValidate(_mock_links_stats);
     expect(result).toEqual({Total: 2, Unique: 2, Broken: 1});
   });
 });
