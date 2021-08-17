@@ -39,7 +39,7 @@ const readFilesMd = (list) => { //Lee los links de los archivos md
         const infoUrls = urls.map(url => {
             const infoUrl = {
                 file: file,
-                text: url.match(/\[(.*)\]/).pop(),
+                text: url.match(/\[(.*)\]/).pop().substring(0, 50),
                 href: url.match(/\((.*)\)/).pop(),
             }
             return infoUrl;

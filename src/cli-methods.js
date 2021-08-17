@@ -1,7 +1,4 @@
-#!/usr/bin/env node 
 const fetch = require('node-fetch');
-const spinner = require('./spinner');
-
 let messageStats = {};
 
 const optionValidate = (urls) => {
@@ -14,8 +11,9 @@ const optionValidate = (urls) => {
             return url;
         })
         .catch((error) => {
-            error.message = 'url incorrect'
-            return error.message;
+            error.message = `request to ${url.href} failed`;
+            console.log(error.message)
+            return error.message
         })
     })
     return Promise.all(newUrls);
