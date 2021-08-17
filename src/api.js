@@ -7,7 +7,6 @@ const cli = require('./cli');
 const mdLinks = function(path, options) {
     
     return new Promise((resolve, rejects) => {
-        console.log(options, path)
         const isValid = index.validatePath(path);
         let urls;
 
@@ -16,15 +15,13 @@ const mdLinks = function(path, options) {
             const filesMd = index.listFilesMd(allFiles);
 
             if (filesMd.length === 0) {
-                process.stderr.write(message.whitOutFilesMd.red);
-                return;
+                rejects(message.whitOutFilesMd.red);
             } 
             else {
                 const filesMdAbsolute = index.toPathAbsolute(filesMd);
                 const arrayLinks = index.readFilesMd(filesMdAbsolute);
                 if (arrayLinks[0] === null) {
-                    process.stderr.write(message.whitOutLinks.red);
-                    return;
+                    rejects(message.whitOutLinks.red);
                 }
                 urls = index.getLinks(arrayLinks)
             }
@@ -34,8 +31,7 @@ const mdLinks = function(path, options) {
                 resolve(urls);
             }
         } else {
-            process.stderr.write(message.invalidPath.red);
-            return;
+            rejects(message.invalidPath.red);
         };
     })
 };
