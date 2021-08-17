@@ -6,7 +6,7 @@
 - [2. Resumen del proyecto](#2-resumen-del-proyecto)
 - [3. Plan de acción](#3-plan-de-acción)
 - [4. Guia de uso](#4-guia-de-uso)
-- [5. Instalación](#8-Instalación)
+- [5. Instalación](#8-instalación)
 - [6. Checklist](#9-checklist)
 
 ---
@@ -42,7 +42,7 @@ seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la pla
 
 ![diagrama](https://github.com/margaZM/LIM015-md-links/blob/dev/src/images/diagrama.png?raw=true)
 
-## 4. Guia de Uso
+## 4. Guía de uso
 
 La librería se puede ejecutar de la siguiente manera a través de la terminal:
 
@@ -104,36 +104,17 @@ Total: 3
 Unique: 3
 Broken: 1
 ```
-
-#### Ejemplo (resultados como comentarios)
-
-```js
-const mdLinks = require("md-links");
-
-mdLinks("./some/example.md")
-  .then((links) => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
-
-mdLinks("./some/example.md", { validate: true })
-  .then((links) => {
-    // => [{ href, text, file, status, ok }, ...]
-  })
-  .catch(console.error);
-
-mdLinks("./some/dir")
-  .then((links) => {
-    // => [{ href, text, file }, ...]
-  })
-  .catch(console.error);
+```sh
+$ md-links --help
+Muestra mensaje de ayuda.
 ```
 
-## 5. Instalación 
+## 5. Instalación
 
 Para instalar la librería use el comando: 
 
-`npm install margaZM-mdlinks`
+`npm install margaZM-mdlinks`   
+
 
 
 ## 6. Checklist
@@ -144,26 +125,29 @@ Para instalar la librería use el comando:
 
 ### `README.md`
 
-- [ ] Un board con el backlog para la implementación de la librería.
-- [ ] Documentación técnica de la librería.
-- [ ] Guía de uso e instalación de la librería
+- [x] Un board con el backlog para la implementación de la librería.
+- [x] Documentación técnica de la librería.
+- [x] Guía de uso e instalación de la librería
 
 ### API `mdLinks(path, opts)`
 
-- [ ] El módulo exporta una función con la interfaz (API) esperada.
-- [ ] Implementa soporte para archivo individual
-- [ ] Implementa soporte para directorios
-- [ ] Implementa `options.validate`
+- [x] El módulo exporta una función con la interfaz (API) esperada.
+- [x] Implementa soporte para archivo individual
+- [x] Implementa soporte para directorios
+- [x] Implementa `options.validate`
 
 ### CLI
 
-- [ ] Expone ejecutable `md-links` en el path (configurado en `package.json`)
-- [ ] Se ejecuta sin errores / output esperado
-- [ ] Implementa `--validate`
-- [ ] Implementa `--stats`
+- [x] Expone ejecutable `md-links` en el path (configurado en `package.json`)
+- [x] Se ejecuta sin errores / output esperado
+- [x] Implementa `--validate`
+- [x] Implementa `--stats`
 
 ### Pruebas / tests
 
-- [ ] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
+- [x] Pruebas unitarias cubren un mínimo del 70% de statements, functions,
       lines, y branches.
-- [ ] Pasa tests (y linters) (`npm test`).
+- [x] Pasa tests (y linters) (`npm test`).
+
+Autor: Aura Margarita Zambrano Méndez;
+Generación: LIM015 Laboratoria Perú.
