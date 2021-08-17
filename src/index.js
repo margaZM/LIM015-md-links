@@ -11,7 +11,7 @@ const arrayFilePath = (pathSent) => {
     if (isDirectory) {
         const paths = fs.readdirSync(pathSent);
         paths.forEach(element => {
-            files = files.concat(arrayFilePath(pathSent + '/' + element));
+            files = files.concat(arrayFilePath(path.join(pathSent, element)));
         })
     } else {
         files.push(pathSent);
@@ -28,7 +28,6 @@ const toPathAbsolute = (list) => { // Pasar a ruta absoluta
 };
 
 const readFilesMd = (list) => { //Lee los links de los archivos md
-    // const regEXp = /\[([^\[]+)\](\(.*\))|(\<.*\>)|\[([^\[]+)\]:\s(http[s]?:www.\w+.\D\S{2,})$/gi;
     const regEXp = /\[([^\[]+)\]:?\s?\(?(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g
     return list.map(file => {
         const fileContent = fs.readFileSync(file, 'UTF-8');
