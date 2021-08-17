@@ -1,5 +1,5 @@
-const index = require('../src/index');
-const cli = require('../src/cli');
+const index = require('../src/api-methods');
+const cli = require('../src/cli-methods');
 
 const _mock_arrayLinks = 
 [
@@ -49,6 +49,14 @@ const _mock_links_stats =
   }
 ]
 
+const _mock_links_fail = 
+[
+  {
+    file: '/home/marga/mock/mockfail.md ',
+    text: 'migraciones',
+    href: 'https://www.migraciones.gob.ve/',
+  }
+]
 
 describe('validatePath(pathSent)', () => {
 
@@ -92,8 +100,6 @@ describe('arrayFilePath(pathSent)', () => {
     const result = index.arrayFilePath("/home/marga/test/prueba");
     expect(result).toEqual(['/home/marga/test/prueba/holamundo.js', '/home/marga/test/prueba/test2.md']);
   });
-
-  //test recursivo
 });
 
 describe('listFilesMd(list)', () => {
@@ -145,10 +151,16 @@ describe('optionValidate(url)', () => {
     expect(typeof cli.optionValidate).toBe('function');
   });
 
-  it ("Should return 200 for the status of a OK link", (done) => {
+  it ("Should return an object with status and ok of the links", (done) => {
     cli.optionValidate(_mock_links).then((resp) => {
       expect(resp).toEqual(_mock_links_stats);
-      // expect(typeof resp).toBe('object');
+      done();
+    })
+  })
+
+  it ("the fetch fails with an error", (done) => {
+    cli.optionValidate(_mock_links_fail).then((resp) => {
+      expect(resp).toEqual(['request to https://www.migraciones.gob.ve/ failed']);
       done();
     })
   })
