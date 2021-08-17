@@ -39,7 +39,7 @@ En este proyecto creamos una herramienta de línea de comando (CLI) que permite 
 
 Como parte de la planificación de este proyecto, se elaboró un plan de acción en Github Projects considerando un milestone por cada sprint y los issues necesarios para poder hacer
 seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la plataforma de [lucid-app](https://lucid.app/documents#/dashboard) para elaborar el diagrama de flujo con los pasos necesarios para culminar el proceso, el cual presentamos a continuación:
-[Diagrama-de-flujo] (https://github.com/margaZM/LIM015-md-links/blob/dev/src/images/diagrama.png?raw=true)
+![md-links] (https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
 
 ## 4. Guia de Uso
 
