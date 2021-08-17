@@ -1,17 +1,20 @@
 #!/usr/bin/env node 
 const fetch = require('node-fetch');
+const spinner = require('./spinner');
+
 let messageStats = {};
 
 const optionValidate = (urls) => {
     const newUrls = urls.map((url) => {
-        return fetch(url.href)
+        const onlyUrl = url.href;
+        return fetch(onlyUrl)
         .then((res) => {
             url.status = res.status; 
-            url.ok = res.statusText;
+            res.statusText !== 'OK' ? url.ok = 'Failed' : url.ok = 'Ok';
             return url;
         })
         .catch((error) => {
-            error.message;
+            error.message = 'url incorrect'
             return error.message;
         })
     })
@@ -31,7 +34,7 @@ const optionStats = (urls) => {
 const optionStatsValidate = (urls) => {
     let countedBroken = 0;
     for (const url of urls) {
-        if (url.status === 404) {
+        if (url.status > 299) {
         countedBroken++;
         }
     }
