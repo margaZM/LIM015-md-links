@@ -1,20 +1,25 @@
 #!/usr/bin/env node
 const api = require('./api');
-const cli = require('./cli');
-const spinner = require('./spinner');
-const logUpdate = require('log-update');
+const cli = require('./cli-methods');
 require('colors');
-// var emoji = require('node-emoji');
+const ora = require('ora');
+const message = require('./messages');
 const program = require('commander')
     .version('0.1.0')
     .command('md-links <path>')
     .description('Parses Markdown files and prints the links it contains, their path, status and stats')
     .option('-v, --validate [value]', 'Validates the links in the .md file', false)
     .option('-s, --stats', 'Statistics associated with the links')
+    .addHelpText('after', message.helpMessage)
     .action(function(path, options) {
+    const spinner = ora('Loading...').start();
+    setTimeout(() => {
+        spinner.color = 'yellow';
+        spinner.text = 'Loading...';
+    }, 1000);
 
     api.mdLinks(path, options).then((resp) => {
-        // spinner.spinner();
+        spinner.succeed('Loaded');
         if (options.stats === true && options.validate === true) {
             let stats = cli.optionStats(resp);
             stats.Broken = cli.optionStatsValidate(resp).Broken;
@@ -33,10 +38,10 @@ const program = require('commander')
                 if(url.status < 299) {
                     console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ✅ ${url.ok.green}`)
                     console.log('------------------------------------------------------------------')
-                } else {
+                } else if (url.status > 299) {
                     console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ❌ ${url.ok.red}`)
                     console.log('------------------------------------------------------------------')
-                }
+                } 
             }
         } else {
             for (const url of resp) {
@@ -46,17 +51,12 @@ const program = require('commander')
         }
     })
     .catch((error)=> {
+        spinner.fail('Please check the following error:')
         console.error(error)
     })
 })
 
 program.parse(process.argv);
-// api.mdLinks(pathSent, options).then((resp) => {
-//     console.log(resp)
-//     // resp.forEach(element => {
-//     //     console.log(`${element.file} ${element.href} ${element.text} ${element.status} ${element.ok}`)
-//     // });
-// });
 
 // Dar formato de tabla
 // if ( options.validate === false ) {
