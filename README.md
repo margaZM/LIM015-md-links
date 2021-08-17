@@ -6,7 +6,7 @@
 - [2. Resumen del proyecto](#2-resumen-del-proyecto)
 - [3. Plan de acción](#3-plan-de-acción)
 - [4. Guia de uso](#4-guia-de-uso)
-- [5. Instalación](#8-instalacion)
+- [5. Instalación](#8-Instalación)
 - [6. Checklist](#9-checklist)
 
 ---
@@ -38,8 +38,9 @@ En este proyecto creamos una herramienta de línea de comando (CLI) que permite 
 ## 3. Plan de acción 
 
 Como parte de la planificación de este proyecto, se elaboró un plan de acción en Github Projects considerando un milestone por cada sprint y los issues necesarios para poder hacer
-seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la plataforma de [lucid-app](https://lucid.app/documents#/dashboard) para elaborar el diagrama de flujo con los pasos necesarios para culminar el proceso, el cual presentamos a continuación:
-![md-links] (https://user-images.githubusercontent.com/110297/42118443-b7a5f1f0-7bc8-11e8-96ad-9cc5593715a6.jpg)
+seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la plataforma de [lucid-app](https://lucid.app/documents#/dashboard) para elaborar el diagrama de flujo con los pasos necesarios para culminar el proceso, el cual presentamos a continuación: 
+
+![diagrama](https://github.com/margaZM/LIM015-md-links/blob/dev/src/images/diagrama.png?raw=true)
 
 ## 4. Guia de Uso
 
