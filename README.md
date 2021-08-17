@@ -113,7 +113,7 @@ Muestra mensaje de ayuda.
 
 Para instalar la librería use el comando: 
 
-`npm install margaZM-mdlinks`   
+`npm install margazm-mdlinks`   
 
 
 
