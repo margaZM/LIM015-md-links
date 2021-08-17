@@ -40,7 +40,7 @@ En este proyecto creamos una herramienta de línea de comando (CLI) que permite 
 Como parte de la planificación de este proyecto, se elaboró un plan de acción en Github Projects considerando un milestone por cada sprint y los issues necesarios para poder hacer
 seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la plataforma de [lucid-app](https://lucid.app/documents#/dashboard) para elaborar el diagrama de flujo con los pasos necesarios para culminar el proceso, el cual presentamos a continuación: 
 
-![diagrama](https://github.com/margaZM/LIM015-md-links/blob/dev/src/images/diagrama.png?raw=true)
+![diagrama](https://github.com/margaZM/LIM015-md-links/blob/main/src/images/diagrama.png?raw=true)
 
 ## 4. Guía de uso
 
@@ -149,5 +149,5 @@ Para instalar la librería use el comando:
       lines, y branches.
 - [x] Pasa tests (y linters) (`npm test`).
 
-Autor: Aura Margarita Zambrano Méndez;
-Generación: LIM015 Laboratoria Perú.
+**Autor:** Aura Margarita Zambrano Méndez.      
+**Generación:** LIM015 Laboratoria Perú.
