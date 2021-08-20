@@ -1,5 +1,7 @@
 const index = require('../src/api-methods');
 const cli = require('../src/cli-methods');
+const api = require('../src/api');
+require('colors');
 
 const _mock_arrayLinks = 
 [
@@ -52,14 +54,21 @@ const _mock_links_stats =
 const _mock_links_fail = 
 [
   {
-    file: '/home/marga/mock/mockfail.md ',
+    file: '/home/marga/mock/mockfail.md',
     text: 'migraciones',
     href: 'https://www.migraciones.gob.ve/',
   }
 ]
 
-describe('validatePath(pathSent)', () => {
+const _mock_links_fail_stats = [{
+  file: '/home/marga/mock/mockfail.md',
+  text: 'migraciones',
+  href: 'https://www.migraciones.gob.ve/',
+  status: 500,
+  ok: 'Failed'
+}]
 
+describe('validatePath(pathSent)', () => {
   it ("Deberia ser una funcion", () => {
     expect(typeof index.validatePath).toBe('function');
   });
@@ -74,7 +83,6 @@ describe('validatePath(pathSent)', () => {
 });
 
 describe('checkTypePath(pathSent)', () => {
-
   it ("It should be a function", () => {
     expect(typeof index.checkTypePath).toBe('function');
   });
@@ -91,7 +99,6 @@ describe('checkTypePath(pathSent)', () => {
 });
 
 describe('arrayFilePath(pathSent)', () => {
-
   it ("It should be a function", () => {
     expect(typeof index.arrayFilePath).toBe('function');
   });
@@ -144,7 +151,38 @@ describe('getLinks(list)', () => {
   });
 });
 
-//*************** CLI.JS ************************/
+//*************** API.JS ************************/
+
+describe('mdLinks(path, option)', () => {
+  it ("Should be a function", () => {
+    expect(typeof api.mdLinks).toBe('function');
+  });
+  it ("Should return an error for invalid path", (done) => {
+    api.mdLinks('../../te', {validate: false}).catch((resp) => {
+      expect(resp)
+      .toEqual(`Error: ../../te is a invalid path`);
+      done();
+    })
+  });
+  it ("Should return an array of objects for valid path and validate: false", (done) => {
+    api.mdLinks('/home/marga/mock/mock.md', {validate: false}).then((resp) => {
+      expect.assertions(1);
+      expect(resp)
+      .toEqual(_mock_links);
+      done();
+    })
+  });
+  it ("Should return an array of objects including status and ok", (done) => {
+    api.mdLinks('/home/marga/mock/mock.md', {validate: true}).then((resp) => {
+      expect(resp)
+      .toEqual(_mock_links_stats);
+      done();
+    })
+  });
+});
+
+
+//*************** CLI-METHODS.JS ************************/
 
 describe('optionValidate(url)', () => {
   it ("Should be a function", () => {
@@ -160,7 +198,7 @@ describe('optionValidate(url)', () => {
 
   it ("the fetch fails with an error", (done) => {
     cli.optionValidate(_mock_links_fail).then((resp) => {
-      expect(resp).toEqual(['request to https://www.migraciones.gob.ve/ failed']);
+      expect(resp).toEqual(_mock_links_fail_stats);
       done();
     })
   })
@@ -185,3 +223,5 @@ describe('optionStatsValidate(urls)', () => {
     expect(result).toEqual({Total: 2, Unique: 2, Broken: 1});
   });
 });
+
+
