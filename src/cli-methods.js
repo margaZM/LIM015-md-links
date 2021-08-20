@@ -11,9 +11,11 @@ const optionValidate = (urls) => {
             return url;
         })
         .catch((error) => {
-            error.message = `request to ${url.href} failed`;
-            console.log(error.message)
-            return error.message
+            if (error) {
+                url.status = 500;
+                url.ok = 'Failed'
+                return url;
+            }
         })
     })
     return Promise.all(newUrls);
@@ -21,9 +23,9 @@ const optionValidate = (urls) => {
 
 const optionStats = (urls) => {
     let countedUrls = urls.reduce(function (allUrls, url) {
-    return (url.href in allUrls ? allUrls[url.href]++ : allUrls[url.href]=1, allUrls) 
+    return (url.href in allUrls ? allUrls[url.href]++ : allUrls[url.href] = 1, allUrls) 
     }, {})
-    const unique = Object.values(countedUrls)
+    const unique = Object.values(countedUrls);
     messageStats.Total = urls.length;
     messageStats.Unique = unique.length;
     return messageStats;
