@@ -5,8 +5,8 @@ require('colors');
 const ora = require('ora');
 const message = require('./messages');
 const program = require('commander')
-    .version('0.1.0')
     .command('md-links <path>')
+    .version('0.1.1', '-V, --version', 'output the current version')
     .description('Parses Markdown files and prints the links it contains, their path, status and stats')
     .option('-v, --validate [value]', 'Validates the links in the .md file', false)
     .option('-s, --stats', 'Statistics associated with the links')
