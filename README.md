@@ -34,11 +34,10 @@ algunas estadísticas.
 
 En este proyecto creamos una herramienta de línea de comando (CLI) que permite extraer links dentro de archivos markdown, evalua su estatus y presenta estadísticas de los mismos.
 
-
-## 3. Plan de acción 
+## 3. Plan de acción
 
 Como parte de la planificación de este proyecto, se elaboró un plan de acción en Github Projects considerando un milestone por cada sprint y los issues necesarios para poder hacer
-seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la plataforma de [lucid-app](https://lucid.app/documents#/dashboard) para elaborar el diagrama de flujo con los pasos necesarios para culminar el proceso, el cual presentamos a continuación: 
+seguimiento del progreso de acuerdo al tiempo estipulado, además se usó la plataforma de [lucid-app](https://lucid.app/documents#/dashboard) para elaborar el diagrama de flujo con los pasos necesarios para culminar el proceso, el cual presentamos a continuación:
 
 ![diagrama](https://github.com/margaZM/LIM015-md-links/blob/main/src/images/diagrama.png?raw=true)
 
@@ -65,9 +64,9 @@ que hay dentro del link (truncado a 50 caracteres).
 
 #### Options
 
-##### `--validate`
+##### `-v` o `--validate`
 
-Si pasamos la opción `--validate`, el módulo hace una petición HTTP para
+Si pasamos la opción `-v` o `--validate`, el módulo hace una petición HTTP para
 averiguar si el link funciona o no. Si el link resulta en una redirección a una
 URL que responde ok, entonces consideraremos el link como ok.
 
@@ -84,9 +83,9 @@ Vemos que el _output_ en este caso incluye la palabra `ok` o `fail` después de
 la URL, así como el status de la respuesta recibida a la petición HTTP a dicha
 URL.
 
-##### `--stats`
+##### `-s` o `--stats`
 
-Si se pasa la opción `--stats` el output (salida) será un texto con estadísticas
+Si se pasa la opción `-s` o `--stats` el output (salida) será un texto con estadísticas
 básicas sobre los links.
 
 ```sh
@@ -104,6 +103,9 @@ Total: 3
 Unique: 3
 Broken: 1
 ```
+
+También es posible obtener un mensaje con información de los comandos a traves del comando `-h` o `--help`.
+
 ```sh
 $ md-links --help
 Muestra mensaje de ayuda.
@@ -111,17 +113,24 @@ Muestra mensaje de ayuda.
 
 ## 5. Instalación
 
-Para instalar la librería use el comando: 
+Para instalar la librería use el comando:
 
-`npm install margazm-mdlinks`   
+`npm install margazm-mdlinks`,
+
+`npm install --global margazm-mdlinks` o
+
+`npm install --save-dev margazm-mdlinks`        
 
 
+Para desinstalar use el comando:
+
+`npm uninstall margazm-mdlinks`
 
 ## 6. Checklist
 
 ### General
 
-- [ ] Puede instalarse via `npm install --global <github-user>/md-links`
+- [x] Puede instalarse via `npm install --global <github-user>/md-links`
 
 ### `README.md`
 
@@ -149,5 +158,5 @@ Para instalar la librería use el comando:
       lines, y branches.
 - [x] Pasa tests (y linters) (`npm test`).
 
-**Autor:** Aura Margarita Zambrano Méndez.      
+**Autor:** Aura Margarita Zambrano Méndez.  
 **Generación:** LIM015 Laboratoria Perú.
