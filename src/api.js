@@ -23,6 +23,7 @@ const mdLinks = function(path, options) {
                     rejects(message.whitOutLinks);
                 }
                 urls = index.getLinks(arrayLinks)
+                urls = data.filter(element => element !== null && element !== undefined);
             }
             if (options.validate === true) {
                resolve(cli.optionValidate(urls));
