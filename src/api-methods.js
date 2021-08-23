@@ -31,18 +31,24 @@ const readFilesMd = (list) => { //Lee los links de los archivos md
     const regEXp = /\[([^\[]+)\]:?\s?\(?(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]+\.[^\s]{2,}|www\.[a-zA-Z0-9]+\.[^\s]{2,})/g
     return list.map(file => {
         const fileContent = fs.readFileSync(file, 'UTF-8');
-        const urls = fileContent.match(regEXp);
+        const data = fileContent.match(regEXp);
 
-        if (urls === null){
+        if (data === null){
             return null;
         }
-        const infoUrls = urls.map(url => {
-            const infoUrl = {
-                file: file,
-                text: url.match(/\[(.*)\]/).pop().substring(0, 50),
-                href: url.match(/\((.*)\)/).pop(),
+
+        const infoUrls = data.map(url => {
+            const text = url.match(/\[(.*?)\]\S/);
+            const href = url.match(/\((.*?)\)/);
+            
+            if (text !== null && href !== null) {
+                const infoUrl = {
+                    file: file,
+                    text: text[1].substring(0,50),
+                    href: href[1]
+                }
+                return infoUrl;
             }
-            return infoUrl;
         })
         return infoUrls;
     })
