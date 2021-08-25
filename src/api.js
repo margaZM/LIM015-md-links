@@ -22,7 +22,7 @@ const mdLinks = function(path, options) {
                 if (arrayLinks[0] === null) {
                     rejects(message.whitOutLinks);
                 }
-                urls = index.getLinks(arrayLinks)
+                data = index.getLinks(arrayLinks)
                 urls = data.filter(element => element !== null && element !== undefined);
             }
             if (options.validate === true) {

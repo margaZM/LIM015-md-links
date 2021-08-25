@@ -26,7 +26,6 @@ const program = require('commander')
             console.log(`${ 'Total:'.bold } ${stats.Total}`);
             console.log(`${ 'Unique:'.bold } ${stats.Unique}`);
             console.log(`${ 'Broken:'.bold } ${stats.Broken}`);
-            // console.log('otra cosa')
         } else if (options.stats === true && options.validate === false) {
             let urls = resp;
             const stats = cli.optionStats(urls);
@@ -36,7 +35,7 @@ const program = require('commander')
         } else if ( options.validate === true ) {
             for (const url of resp) {
                 if(url.status < 299) {
-                    console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ✅ ${url.ok.green}`)
+                    console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ${'✔️'.green} ${url.ok.green}`)
                     console.log('------------------------------------------------------------------')
                 } else if (url.status > 299) {
                     console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ❌ ${url.ok.red}`)
