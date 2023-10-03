@@ -6,7 +6,7 @@ const ora = require('ora');
 const message = require('./messages');
 const program = require('commander')
     .command('md-links <path>')
-    .version('0.1.1', '-V, --version', 'output the current version')
+    .version('0.2.2', '-V, --version', 'output the current version')
     .description('Parses Markdown files and prints the links it contains, their path, status and stats')
     .option('-v, --validate [value]', 'Validates the links in the .md file', false)
     .option('-s, --stats', 'Statistics associated with the links')
@@ -38,7 +38,7 @@ const program = require('commander')
                     console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ${'✔️'.green} ${url.ok.green}`)
                     console.log('------------------------------------------------------------------')
                 } else if (url.status > 299) {
-                    console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ❌ ${url.ok.red}`)
+                    console.table(`${url.file} ${'|'.yellow} ${url.href} ${'|'.yellow} ${url.text} ${'|'.yellow} ${url.status} ${'|'.yellow} ${'X'.red} ${url.ok.red}`)
                     console.log('------------------------------------------------------------------')
                 } 
             }
@@ -56,18 +56,3 @@ const program = require('commander')
 })
 
 program.parse(process.argv);
-
-// Dar formato de tabla
-// if ( options.validate === false ) {
-//     // console.table(`${url.file} ${'*'.yellow} ${url.href} ${'*'.yellow} ${url.text}`)
-//     // console.log('------------------------------------------')
-//     // console.table(
-//     //     resp.map(r => {
-//     //         return {
-//     //         "path": `${r.file}`,
-//     //         "Short Option": `${r.href}`,
-//     //         Description: `${r.text}`
-//     //         };
-//     //     })
-//     // )
-// }
